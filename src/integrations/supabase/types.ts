@@ -14,13 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      shared_images: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          image_data: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          image_data: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          image_data?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      cleanup_expired_images: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
