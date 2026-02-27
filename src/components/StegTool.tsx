@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import ImageDropZone from "./ImageDropZone";
 import ImageCompareSlider from "./ImageCompareSlider";
@@ -20,15 +21,17 @@ interface StegToolProps {
   onModeChange: (mode: "encode" | "decode" | "batch") => void;
 }
 
-const extractEncryptedPayload = (message: string): string | null => {
+const extractEncryptedPayload = (message: string): { payload: string; corrupted: boolean } | null => {
   const fullPrefixIndex = message.indexOf(ENCRYPTED_PREFIX);
   if (fullPrefixIndex !== -1) {
     const payload = message.slice(fullPrefixIndex + ENCRYPTED_PREFIX.length).trim();
-    return payload || null;
+    if (!payload) return null;
+    return { payload, corrupted: fullPrefixIndex > 0 };
   }
 
   const fallbackMatch = message.match(/ENC:([A-Za-z0-9+/=]+)/);
-  return fallbackMatch?.[1] || null;
+  if (fallbackMatch?.[1]) return { payload: fallbackMatch[1], corrupted: true };
+  return null;
 };
 
 const StegTool = ({ mode, onModeChange }: StegToolProps) => {
@@ -62,6 +65,7 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
   const [decodePassword, setDecodePassword] = useState("");
   const [decryptedMessage, setDecryptedMessage] = useState<string | null>(null);
   const [isMessageEncrypted, setIsMessageEncrypted] = useState(false);
+  const [prefixCorrupted, setPrefixCorrupted] = useState(false);
   const [batchCount, setBatchCount] = useState(0);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -128,11 +132,12 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
         ctx.drawImage(img, 0, 0);
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const message = decodeMessage(imageData);
-        const encryptedPayload = message ? extractEncryptedPayload(message) : null;
+        const result = message ? extractEncryptedPayload(message) : null;
 
-        if (encryptedPayload) {
-          setDecodedMessage(`${ENCRYPTED_PREFIX}${encryptedPayload}`);
+        if (result) {
+          setDecodedMessage(`${ENCRYPTED_PREFIX}${result.payload}`);
           setIsMessageEncrypted(true);
+          setPrefixCorrupted(result.corrupted);
           toast.success("Encrypted message found! Enter password to decrypt.");
         } else {
           setDecodedMessage(message || null);
@@ -154,9 +159,9 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
   const handleDecrypt = useCallback(async () => {
     if (!decodedMessage || !decodePassword) return;
     try {
-      const encData = extractEncryptedPayload(decodedMessage);
-      if (!encData) throw new Error("Encrypted payload not found");
-      const plaintext = await decryptText(encData, decodePassword);
+      const result = extractEncryptedPayload(decodedMessage);
+      if (!result) throw new Error("Encrypted payload not found");
+      const plaintext = await decryptText(result.payload, decodePassword);
       setDecryptedMessage(plaintext);
       toast.success("Message decrypted!");
     } catch {
@@ -457,6 +462,12 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
                   <Unlock className="w-4 h-4" />
                   {isMessageEncrypted ? "Encrypted message found" : "Hidden message found"}
                 </span>
+                {isMessageEncrypted && prefixCorrupted && (
+                  <Badge variant="outline" className="text-[10px] px-1.5 py-0 border-yellow-500/50 text-yellow-500 gap-1">
+                    <AlertTriangle className="w-3 h-3" />
+                    Auto-repaired
+                  </Badge>
+                )}
                 {!isMessageEncrypted && (
                   <div className="flex gap-1">
                     <Button variant="ghost" size="sm" onClick={() => setShowMessage(!showMessage)} className="text-muted-foreground hover:text-foreground">
