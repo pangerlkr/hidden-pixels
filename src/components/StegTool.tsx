@@ -47,6 +47,7 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
   const [decodePassword, setDecodePassword] = useState("");
   const [decryptedMessage, setDecryptedMessage] = useState<string | null>(null);
   const [isMessageEncrypted, setIsMessageEncrypted] = useState(false);
+  const [batchCount, setBatchCount] = useState(0);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -231,6 +232,11 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
           <TabsTrigger value="batch" className="flex-1 gap-2 font-mono data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             <Layers className="w-4 h-4" />
             Batch
+            {batchCount > 0 && (
+              <span className="ml-1 px-1.5 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-mono leading-none">
+                {batchCount}
+              </span>
+            )}
           </TabsTrigger>
         </TabsList>
 
@@ -476,7 +482,7 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
         </TabsContent>
 
         <TabsContent value="batch" className="space-y-4 mt-6">
-          <BatchEncode />
+          <BatchEncode onCountChange={setBatchCount} />
         </TabsContent>
       </Tabs>
 

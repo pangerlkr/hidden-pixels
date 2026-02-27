@@ -21,8 +21,19 @@ interface BatchImage {
   encodedBlob?: Blob;
 }
 
-const BatchEncode = () => {
-  const [images, setImages] = useState<BatchImage[]>([]);
+interface BatchEncodeProps {
+  onCountChange?: (count: number) => void;
+}
+
+const BatchEncode = ({ onCountChange }: BatchEncodeProps) => {
+  const [images, _setImages] = useState<BatchImage[]>([]);
+  const setImages: typeof _setImages = (update) => {
+    _setImages((prev) => {
+      const next = typeof update === "function" ? update(prev) : update;
+      onCountChange?.(next.length);
+      return next;
+    });
+  };
   const [message, setMessage] = useState("");
   const [useEncryption, setUseEncryption] = useState(false);
   const [password, setPassword] = useState("");
