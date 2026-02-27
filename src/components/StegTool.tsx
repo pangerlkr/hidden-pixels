@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import ImageDropZone from "./ImageDropZone";
 import ImageCompareSlider from "./ImageCompareSlider";
 import BatchEncode from "./BatchEncode";
+import StrengthIndicator from "./StrengthIndicator";
 import { encodeMessage, decodeMessage, getMaxMessageLength } from "@/lib/steganography";
 import { encryptText, decryptText, ENCRYPTED_PREFIX, isEncrypted } from "@/lib/crypto";
 import { supabase } from "@/integrations/supabase/client";
@@ -341,6 +342,13 @@ const StegTool = () => {
                 Encoded image ready
               </div>
               <ImageCompareSlider originalSrc={encodePreview} encodedSrc={encodedUrl} />
+              <StrengthIndicator
+                imageWidth={encodeImage!.width}
+                imageHeight={encodeImage!.height}
+                messageLength={secretMessage.length}
+                maxChars={maxChars}
+                encrypted={useEncryption && !!encodePassword}
+              />
               <div className="flex gap-2">
                 <Button onClick={downloadImage} className="flex-1 font-mono bg-primary text-primary-foreground hover:bg-primary/90">
                   <Download className="w-4 h-4 mr-2" />
