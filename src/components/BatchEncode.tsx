@@ -186,19 +186,26 @@ const BatchEncode = ({ onCountChange }: BatchEncodeProps) => {
     const doneImages = images.filter(i => i.status === "done" && i.encodedBlob);
     if (doneImages.length === 0) return;
 
-    const zip = new JSZip();
-    doneImages.forEach((item, idx) => {
-      const name = item.file.name.replace(/\.[^.]+$/, "");
-      zip.file(`${name}_stego_${idx + 1}.png`, item.encodedBlob!);
-    });
+    try {
+      const zip = new JSZip();
+      doneImages.forEach((item, idx) => {
+        const name = item.file.name.replace(/\.[^.]+$/, "");
+        zip.file(`${name}_stego_${idx + 1}.png`, item.encodedBlob!);
+      });
 
-    const blob = await zip.generateAsync({ type: "blob" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "stego-batch.zip";
-    a.click();
-    URL.revokeObjectURL(url);
+      const blob = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "stego-batch.zip";
+      a.click();
+      URL.revokeObjectURL(url);
+
+      const sizeMB = (blob.size / (1024 * 1024)).toFixed(1);
+      toast.success(`ZIP downloaded — ${doneImages.length} images, ${sizeMB} MB`);
+    } catch {
+      toast.error("Failed to create ZIP file.");
+    }
   }, [images]);
 
   const doneCount = images.filter(i => i.status === "done").length;
