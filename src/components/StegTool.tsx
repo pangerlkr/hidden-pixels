@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-import { Lock, Unlock, Download, Copy, RotateCcw, Eye, EyeOff, Info, Gauge, AlertTriangle, Share2, KeyRound, Loader2, Layers } from "lucide-react";
+import { Lock, Unlock, Download, Copy, RotateCcw, Eye, EyeOff, Info, Gauge, AlertTriangle, Share2, KeyRound, Loader2, Layers, ShieldCheck } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -310,6 +310,19 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
                     </p>
                   </div>
                 )}
+              </div>
+
+              {/* EXIF Strip Notice */}
+              <div className="p-3 rounded-lg bg-primary/5 border border-primary/20">
+                <div className="flex items-center gap-2 text-xs font-mono">
+                  <ShieldCheck className="w-4 h-4 text-primary shrink-0" />
+                  <div>
+                    <span className="text-foreground font-medium">EXIF metadata auto-stripped</span>
+                    <p className="text-muted-foreground text-[10px] mt-0.5">
+                      The encoded PNG output contains no EXIF data (camera, GPS, dates). Canvas rendering removes all metadata automatically.
+                    </p>
+                  </div>
+                </div>
               </div>
 
               {/* Capacity Meter */}
