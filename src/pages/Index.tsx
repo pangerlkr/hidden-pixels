@@ -2,6 +2,7 @@ import { Shield, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MatrixBackground from "@/components/MatrixBackground";
 import StegTool from "@/components/StegTool";
+import TutorialWalkthrough from "@/components/TutorialWalkthrough";
 import { useTheme } from "@/components/ThemeProvider";
 
 const Index = () => {
@@ -19,11 +20,14 @@ const Index = () => {
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
-              className="absolute top-0 right-0 text-muted-foreground hover:text-foreground"
+              className="absolute top-0 right-12 text-muted-foreground hover:text-foreground"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </Button>
+            <div className="absolute top-0 right-0">
+              <TutorialWalkthrough />
+            </div>
 
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary border border-border text-xs font-mono text-muted-foreground">
               <Shield className="w-3 h-3 text-primary" />
