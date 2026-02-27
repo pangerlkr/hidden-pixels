@@ -14,8 +14,12 @@ import { encodeMessage, decodeMessage, getMaxMessageLength } from "@/lib/stegano
 import { encryptText, decryptText, ENCRYPTED_PREFIX, isEncrypted } from "@/lib/crypto";
 import { supabase } from "@/integrations/supabase/client";
 
-const StegTool = () => {
-  const [mode, setMode] = useState<"encode" | "decode" | "batch">("encode");
+interface StegToolProps {
+  mode: "encode" | "decode" | "batch";
+  onModeChange: (mode: "encode" | "decode" | "batch") => void;
+}
+
+const StegTool = ({ mode, onModeChange }: StegToolProps) => {
 
   // Encode state
   const [encodeImage, setEncodeImage] = useState<HTMLImageElement | null>(null);
@@ -214,7 +218,7 @@ const StegTool = () => {
         </div>
       </div>
 
-      <Tabs value={mode} onValueChange={(v) => setMode(v as "encode" | "decode" | "batch")} className="w-full">
+      <Tabs value={mode} onValueChange={(v) => onModeChange(v as "encode" | "decode" | "batch")} className="w-full">
         <TabsList className="w-full bg-secondary border border-border">
           <TabsTrigger value="encode" className="flex-1 gap-2 font-mono data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             <Lock className="w-4 h-4" />

@@ -1,14 +1,28 @@
+import { useState, useCallback } from "react";
 import { Shield } from "lucide-react";
 import StegTool from "@/components/StegTool";
 import TutorialWalkthrough from "@/components/TutorialWalkthrough";
+import KeyboardShortcutsHelp from "@/components/KeyboardShortcutsHelp";
+import { useKeyboardShortcuts } from "@/hooks/use-keyboard-shortcuts";
 
 const Index = () => {
+  const [mode, setMode] = useState<"encode" | "decode" | "batch">("encode");
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
+
+  useKeyboardShortcuts([
+    { key: "e", ctrl: true, handler: useCallback(() => setMode("encode"), []) },
+    { key: "d", ctrl: true, handler: useCallback(() => setMode("decode"), []) },
+    { key: "b", ctrl: true, handler: useCallback(() => setMode("batch"), []) },
+    { key: "?", handler: useCallback(() => setShortcutsOpen((o) => !o), []) },
+  ]);
+
   return (
     <div className="min-h-screen bg-background">
       <div className="container max-w-3xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="relative text-center mb-10 space-y-4">
-          <div className="absolute top-0 right-0">
+          <div className="absolute top-0 right-0 flex items-center gap-1">
+            <KeyboardShortcutsHelp open={shortcutsOpen} onOpenChange={setShortcutsOpen} />
             <TutorialWalkthrough />
           </div>
 
@@ -25,7 +39,7 @@ const Index = () => {
         </div>
 
         {/* Tool */}
-        <StegTool />
+        <StegTool mode={mode} onModeChange={setMode} />
 
         {/* Footer */}
         <div className="mt-16 text-center text-xs text-muted-foreground font-mono opacity-50">
