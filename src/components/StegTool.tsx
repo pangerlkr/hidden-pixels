@@ -12,13 +12,24 @@ import BatchEncode from "./BatchEncode";
 import StrengthIndicator from "./StrengthIndicator";
 import ImageMetadataPanel from "./ImageMetadataPanel";
 import { encodeMessage, decodeMessage, getMaxMessageLength } from "@/lib/steganography";
-import { encryptText, decryptText, ENCRYPTED_PREFIX, isEncrypted } from "@/lib/crypto";
+import { encryptText, decryptText, ENCRYPTED_PREFIX } from "@/lib/crypto";
 import { supabase } from "@/integrations/supabase/client";
 
 interface StegToolProps {
   mode: "encode" | "decode" | "batch";
   onModeChange: (mode: "encode" | "decode" | "batch") => void;
 }
+
+const extractEncryptedPayload = (message: string): string | null => {
+  const fullPrefixIndex = message.indexOf(ENCRYPTED_PREFIX);
+  if (fullPrefixIndex !== -1) {
+    const payload = message.slice(fullPrefixIndex + ENCRYPTED_PREFIX.length).trim();
+    return payload || null;
+  }
+
+  const fallbackMatch = message.match(/ENC:([A-Za-z0-9+/=]+)/);
+  return fallbackMatch?.[1] || null;
+};
 
 const StegTool = ({ mode, onModeChange }: StegToolProps) => {
 
@@ -117,8 +128,10 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
         ctx.drawImage(img, 0, 0);
         const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const message = decodeMessage(imageData);
-        if (message && isEncrypted(message)) {
-          setDecodedMessage(message);
+        const encryptedPayload = message ? extractEncryptedPayload(message) : null;
+
+        if (encryptedPayload) {
+          setDecodedMessage(`${ENCRYPTED_PREFIX}${encryptedPayload}`);
           setIsMessageEncrypted(true);
           toast.success("Encrypted message found! Enter password to decrypt.");
         } else {
@@ -141,7 +154,8 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
   const handleDecrypt = useCallback(async () => {
     if (!decodedMessage || !decodePassword) return;
     try {
-      const encData = decodedMessage.slice(ENCRYPTED_PREFIX.length);
+      const encData = extractEncryptedPayload(decodedMessage);
+      if (!encData) throw new Error("Encrypted payload not found");
       const plaintext = await decryptText(encData, decodePassword);
       setDecryptedMessage(plaintext);
       toast.success("Message decrypted!");
