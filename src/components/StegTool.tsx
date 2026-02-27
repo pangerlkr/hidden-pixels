@@ -440,6 +440,22 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
             )}
           </div>
 
+          {!decodePreview && (
+            <div className="grid grid-cols-3 gap-3 p-4 rounded-lg border border-dashed border-muted-foreground/20 bg-secondary/30">
+              {[
+                { icon: "📤", title: "Upload", desc: "Drop or select a stego PNG image" },
+                { icon: "🔍", title: "Scan", desc: "The app extracts hidden data from pixels" },
+                { icon: "🔓", title: "Reveal", desc: "Enter password if encrypted, or read directly" },
+              ].map((s) => (
+                <div key={s.title} className="flex flex-col items-center text-center gap-1.5">
+                  <span className="text-xl">{s.icon}</span>
+                  <span className="text-xs font-mono font-semibold text-foreground">{s.title}</span>
+                  <span className="text-[10px] text-muted-foreground leading-tight">{s.desc}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
           <ImageDropZone
             onImageLoad={handleDecodeImageLoad}
             label="Drop a stego image to reveal its secret"
