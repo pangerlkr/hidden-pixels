@@ -105,11 +105,11 @@ const TutorialWalkthrough = () => {
       <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" onClick={close} />
 
       {/* Modal */}
-      <div className="relative w-full max-w-md rounded-xl bg-card border border-border shadow-2xl overflow-hidden">
+      <div className="relative w-full max-w-md rounded-xl bg-card border-2 border-primary/30 shadow-[0_0_40px_hsl(150_100%_50%/0.1),0_20px_60px_-15px_hsl(0_0%_0%/0.5)] overflow-hidden">
         {/* Progress bar */}
-        <div className="h-1 bg-muted">
+        <div className="h-1.5 bg-muted">
           <div
-            className="h-full bg-primary transition-all duration-300"
+            className="h-full bg-primary transition-all duration-300 shadow-[0_0_8px_hsl(150_100%_50%/0.5)]"
             style={{ width: `${((step + 1) / STEPS.length) * 100}%` }}
           />
         </div>
@@ -122,10 +122,10 @@ const TutorialWalkthrough = () => {
         <div className="p-6 space-y-4">
           {/* Icon + step count */}
           <div className="flex items-center justify-between">
-            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+            <div className="w-10 h-10 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center text-primary">
               {current.icon}
             </div>
-            <span className="text-xs font-mono text-muted-foreground">
+            <span className="text-xs font-mono text-muted-foreground px-2 py-0.5 rounded-full border border-border bg-secondary/50">
               {step + 1} / {STEPS.length}
             </span>
           </div>
@@ -146,7 +146,7 @@ const TutorialWalkthrough = () => {
           )}
 
           {/* Navigation */}
-          <div className="flex items-center justify-between pt-2">
+          <div className="flex items-center justify-between pt-3 border-t border-border">
             <Button
               variant="ghost"
               size="sm"
