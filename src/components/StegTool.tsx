@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-import { Lock, Unlock, Download, Copy, RotateCcw, Eye, EyeOff, Info } from "lucide-react";
+import { Lock, Unlock, Download, Copy, RotateCcw, Eye, EyeOff, Info, Gauge } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -170,6 +170,38 @@ const StegTool = () => {
                 className="font-mono bg-secondary border-border text-foreground placeholder:text-muted-foreground min-h-[100px] resize-none focus:ring-primary/50"
                 maxLength={maxChars}
               />
+
+              {/* Capacity Meter */}
+              {(() => {
+                const bitsUsed = secretMessage.length * 8 + 24; // +24 for delimiter
+                const totalBits = (encodeImage!.width * encodeImage!.height) * 3;
+                const pct = Math.min((bitsUsed / totalBits) * 100, 100);
+                const color = pct > 90 ? "bg-destructive" : pct > 60 ? "bg-accent" : "bg-primary";
+                const colorText = pct > 90 ? "text-destructive" : pct > 60 ? "text-accent" : "text-primary";
+                return (
+                  <div className="space-y-2 p-3 rounded-lg bg-secondary/50 border border-border">
+                    <div className="flex items-center justify-between text-xs font-mono">
+                      <span className="flex items-center gap-1.5 text-muted-foreground">
+                        <Gauge className="w-3.5 h-3.5" />
+                        Bit Capacity
+                      </span>
+                      <span className={colorText}>
+                        {pct.toFixed(1)}% used
+                      </span>
+                    </div>
+                    <div className="h-2 rounded-full bg-background overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-300 ${color}`}
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                    <div className="flex justify-between text-[10px] font-mono text-muted-foreground">
+                      <span>{(bitsUsed).toLocaleString()} bits used</span>
+                      <span>{totalBits.toLocaleString()} bits total</span>
+                    </div>
+                  </div>
+                );
+              })()}
 
               <Button
                 onClick={handleEncode}
