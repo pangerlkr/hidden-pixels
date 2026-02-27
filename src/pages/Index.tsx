@@ -15,17 +15,17 @@ const Index = () => {
         <div className="container max-w-3xl mx-auto px-4 py-12">
           {/* Header */}
           <div className="relative text-center mb-10 space-y-4">
-            {/* Theme toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleTheme}
-              className="absolute top-0 right-12 text-muted-foreground hover:text-foreground"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </Button>
-            <div className="absolute top-0 right-0">
+            {/* Top-right controls */}
+            <div className="absolute top-0 right-0 flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                className="text-muted-foreground hover:text-foreground"
+                aria-label="Toggle theme"
+              >
+                {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </Button>
               <TutorialWalkthrough />
             </div>
 
