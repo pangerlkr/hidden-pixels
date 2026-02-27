@@ -1,12 +1,28 @@
-import { useMemo } from "react";
-import { FileImage, Ruler, HardDrive, Palette } from "lucide-react";
+import { useMemo, useState, useEffect } from "react";
+import { FileImage, Ruler, HardDrive, Palette, Camera, Calendar, MapPin, Aperture, ChevronDown, ChevronUp } from "lucide-react";
+import exifr from "exifr";
 
 interface ImageMetadataPanelProps {
   image: HTMLImageElement;
   file: File | null;
 }
 
+interface ExifData {
+  camera?: string;
+  lens?: string;
+  dateTaken?: string;
+  iso?: number;
+  focalLength?: string;
+  aperture?: string;
+  exposure?: string;
+  gps?: { lat: number; lng: number };
+  software?: string;
+}
+
 const ImageMetadataPanel = ({ image, file }: ImageMetadataPanelProps) => {
+  const [exif, setExif] = useState<ExifData | null>(null);
+  const [showExif, setShowExif] = useState(false);
+
   const metadata = useMemo(() => {
     const w = image.width;
     const h = image.height;
@@ -14,7 +30,6 @@ const ImageMetadataPanel = ({ image, file }: ImageMetadataPanelProps) => {
     const aspectGcd = gcd(w, h);
     const aspectRatio = `${w / aspectGcd}:${h / aspectGcd}`;
     const bitDepth = "8-bit (RGBA)";
-    const totalPixels = (w * h).toLocaleString();
 
     let fileSize = "—";
     let fileType = "—";
@@ -25,10 +40,49 @@ const ImageMetadataPanel = ({ image, file }: ImageMetadataPanelProps) => {
       fileName = file.name;
     }
 
-    return { w, h, megapixels, aspectRatio, bitDepth, totalPixels, fileSize, fileType, fileName };
+    return { w, h, megapixels, aspectRatio, bitDepth, fileSize, fileType, fileName };
   }, [image, file]);
 
-  const items = [
+  useEffect(() => {
+    if (!file) { setExif(null); return; }
+
+    exifr.parse(file, {
+      pick: [
+        "Make", "Model", "LensModel", "DateTimeOriginal",
+        "ISO", "FocalLength", "FNumber", "ExposureTime",
+        "GPSLatitude", "GPSLongitude", "Software",
+      ],
+      gps: true,
+    }).then((data) => {
+      if (!data) { setExif(null); return; }
+
+      const parsed: ExifData = {};
+      if (data.Make || data.Model) {
+        parsed.camera = [data.Make, data.Model].filter(Boolean).join(" ");
+      }
+      if (data.LensModel) parsed.lens = data.LensModel;
+      if (data.DateTimeOriginal) {
+        parsed.dateTaken = new Date(data.DateTimeOriginal).toLocaleString();
+      }
+      if (data.ISO) parsed.iso = data.ISO;
+      if (data.FocalLength) parsed.focalLength = `${data.FocalLength}mm`;
+      if (data.FNumber) parsed.aperture = `f/${data.FNumber}`;
+      if (data.ExposureTime) {
+        parsed.exposure = data.ExposureTime < 1
+          ? `1/${Math.round(1 / data.ExposureTime)}s`
+          : `${data.ExposureTime}s`;
+      }
+      if (data.latitude && data.longitude) {
+        parsed.gps = { lat: data.latitude, lng: data.longitude };
+      }
+      if (data.Software) parsed.software = data.Software;
+
+      const hasData = Object.keys(parsed).length > 0;
+      setExif(hasData ? parsed : null);
+    }).catch(() => setExif(null));
+  }, [file]);
+
+  const basicItems = [
     { icon: Ruler, label: "Dimensions", value: `${metadata.w} × ${metadata.h} px` },
     { icon: FileImage, label: "Megapixels", value: `${metadata.megapixels} MP` },
     { icon: Ruler, label: "Aspect Ratio", value: metadata.aspectRatio },
@@ -37,13 +91,25 @@ const ImageMetadataPanel = ({ image, file }: ImageMetadataPanelProps) => {
     { icon: FileImage, label: "Format", value: metadata.fileType.split("/")[1]?.toUpperCase() || "—" },
   ];
 
+  const exifItems = exif ? [
+    exif.camera && { icon: Camera, label: "Camera", value: exif.camera },
+    exif.lens && { icon: Camera, label: "Lens", value: exif.lens },
+    exif.dateTaken && { icon: Calendar, label: "Date Taken", value: exif.dateTaken },
+    exif.aperture && { icon: Aperture, label: "Aperture", value: exif.aperture },
+    exif.exposure && { icon: Aperture, label: "Exposure", value: exif.exposure },
+    exif.iso && { icon: Aperture, label: "ISO", value: String(exif.iso) },
+    exif.focalLength && { icon: Aperture, label: "Focal Length", value: exif.focalLength },
+    exif.software && { icon: FileImage, label: "Software", value: exif.software },
+    exif.gps && { icon: MapPin, label: "GPS", value: `${exif.gps.lat.toFixed(4)}, ${exif.gps.lng.toFixed(4)}` },
+  ].filter(Boolean) as { icon: any; label: string; value: string }[] : [];
+
   return (
     <div className="p-3 rounded-lg bg-secondary/50 border border-border space-y-2">
       <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
         Image Metadata
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-        {items.map((item) => (
+        {basicItems.map((item) => (
           <div key={item.label} className="flex items-center gap-1.5 text-xs font-mono">
             <item.icon className="w-3 h-3 text-muted-foreground shrink-0" />
             <span className="text-muted-foreground">{item.label}:</span>
@@ -51,6 +117,30 @@ const ImageMetadataPanel = ({ image, file }: ImageMetadataPanelProps) => {
           </div>
         ))}
       </div>
+
+      {exifItems.length > 0 && (
+        <>
+          <button
+            onClick={() => setShowExif(!showExif)}
+            className="flex items-center gap-1.5 text-[10px] font-mono text-primary hover:text-primary/80 transition-colors"
+          >
+            {showExif ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+            EXIF Data ({exifItems.length} fields)
+          </button>
+          {showExif && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1 border-t border-border">
+              {exifItems.map((item) => (
+                <div key={item.label} className="flex items-center gap-1.5 text-xs font-mono">
+                  <item.icon className="w-3 h-3 text-muted-foreground shrink-0" />
+                  <span className="text-muted-foreground">{item.label}:</span>
+                  <span className="text-foreground truncate">{item.value}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+
       {metadata.fileName !== "—" && (
         <p className="text-[10px] font-mono text-muted-foreground truncate">
           {metadata.fileName}
