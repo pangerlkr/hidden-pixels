@@ -10,6 +10,7 @@ import ImageDropZone from "./ImageDropZone";
 import ImageCompareSlider from "./ImageCompareSlider";
 import BatchEncode from "./BatchEncode";
 import StrengthIndicator from "./StrengthIndicator";
+import ImageMetadataPanel from "./ImageMetadataPanel";
 import { encodeMessage, decodeMessage, getMaxMessageLength } from "@/lib/steganography";
 import { encryptText, decryptText, ENCRYPTED_PREFIX, isEncrypted } from "@/lib/crypto";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,6 +29,7 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
   const [encodedUrl, setEncodedUrl] = useState<string | null>(null);
   const [maxChars, setMaxChars] = useState(0);
   const [isEncoding, setIsEncoding] = useState(false);
+  const [encodeFile, setEncodeFile] = useState<File | null>(null);
 
   // Encryption state
   const [useEncryption, setUseEncryption] = useState(false);
@@ -39,6 +41,8 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
 
   // Decode state
   const [decodePreview, setDecodePreview] = useState<string | null>(null);
+  const [decodeImage, setDecodeImage] = useState<HTMLImageElement | null>(null);
+  const [decodeFile, setDecodeFile] = useState<File | null>(null);
   const [decodedMessage, setDecodedMessage] = useState<string | null>(null);
   const [isDecoding, setIsDecoding] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
@@ -51,8 +55,9 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const handleEncodeImageLoad = useCallback((img: HTMLImageElement) => {
+  const handleEncodeImageLoad = useCallback((img: HTMLImageElement, file: File) => {
     setEncodeImage(img);
+    setEncodeFile(file);
     setEncodePreview(img.src);
     setEncodedUrl(null);
     setShareUrl(null);
@@ -92,9 +97,10 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
     }
   }, [encodeImage, secretMessage, useEncryption, encodePassword]);
 
-  const handleDecodeImageLoad = useCallback((img: HTMLImageElement) => {
+  const handleDecodeImageLoad = useCallback((img: HTMLImageElement, file: File) => {
     setDecodePreview(img.src);
-    setDecodedMessage(null);
+    setDecodeImage(img);
+    setDecodeFile(file);
     setDecryptedMessage(null);
     setIsMessageEncrypted(false);
     setShowMessage(false);
@@ -183,6 +189,7 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
   const reset = (target: "encode" | "decode") => {
     if (target === "encode") {
       setEncodeImage(null);
+      setEncodeFile(null);
       setEncodePreview(null);
       setSecretMessage("");
       setEncodedUrl(null);
@@ -192,6 +199,8 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
       setShareUrl(null);
     } else {
       setDecodePreview(null);
+      setDecodeImage(null);
+      setDecodeFile(null);
       setDecodedMessage(null);
       setDecryptedMessage(null);
       setIsMessageEncrypted(false);
@@ -260,6 +269,7 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
 
           {encodeImage && (
             <>
+              <ImageMetadataPanel image={encodeImage} file={encodeFile} />
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-mono text-muted-foreground uppercase tracking-wider">
                   Step 2 — Enter secret message
@@ -401,6 +411,10 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
             label="Drop a stego image to reveal its secret"
             previewUrl={decodePreview}
           />
+
+          {decodeImage && decodePreview && (
+            <ImageMetadataPanel image={decodeImage} file={decodeFile} />
+          )}
 
           {isDecoding && (
             <div className="text-center py-4">
