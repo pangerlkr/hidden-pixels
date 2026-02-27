@@ -282,6 +282,22 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
             )}
           </div>
 
+          {!encodePreview && (
+            <div className="grid grid-cols-3 gap-3 p-4 rounded-lg border border-dashed border-muted-foreground/20 bg-secondary/30">
+              {[
+                { icon: "🖼️", title: "Choose", desc: "Upload a PNG image as the carrier" },
+                { icon: "✍️", title: "Write", desc: "Type your secret message to hide" },
+                { icon: "💾", title: "Save", desc: "Download the image with your hidden message" },
+              ].map((s) => (
+                <div key={s.title} className="flex flex-col items-center text-center gap-1.5">
+                  <span className="text-xl">{s.icon}</span>
+                  <span className="text-xs font-mono font-semibold text-foreground">{s.title}</span>
+                  <span className="text-[10px] text-muted-foreground leading-tight">{s.desc}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
           <ImageDropZone
             onImageLoad={handleEncodeImageLoad}
             label="Drop your carrier image here"
