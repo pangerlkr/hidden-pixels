@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-import { Lock, Unlock, Download, Copy, RotateCcw, Eye, EyeOff, Info, Gauge, AlertTriangle, Share2, KeyRound, Loader2 } from "lucide-react";
+import { Lock, Unlock, Download, Copy, RotateCcw, Eye, EyeOff, Info, Gauge, AlertTriangle, Share2, KeyRound, Loader2, Layers } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,12 +8,13 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import ImageDropZone from "./ImageDropZone";
 import ImageCompareSlider from "./ImageCompareSlider";
+import BatchEncode from "./BatchEncode";
 import { encodeMessage, decodeMessage, getMaxMessageLength } from "@/lib/steganography";
 import { encryptText, decryptText, ENCRYPTED_PREFIX, isEncrypted } from "@/lib/crypto";
 import { supabase } from "@/integrations/supabase/client";
 
 const StegTool = () => {
-  const [mode, setMode] = useState<"encode" | "decode">("encode");
+  const [mode, setMode] = useState<"encode" | "decode" | "batch">("encode");
 
   // Encode state
   const [encodeImage, setEncodeImage] = useState<HTMLImageElement | null>(null);
@@ -212,7 +213,7 @@ const StegTool = () => {
         </div>
       </div>
 
-      <Tabs value={mode} onValueChange={(v) => setMode(v as "encode" | "decode")} className="w-full">
+      <Tabs value={mode} onValueChange={(v) => setMode(v as "encode" | "decode" | "batch")} className="w-full">
         <TabsList className="w-full bg-secondary border border-border">
           <TabsTrigger value="encode" className="flex-1 gap-2 font-mono data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             <Lock className="w-4 h-4" />
@@ -221,6 +222,10 @@ const StegTool = () => {
           <TabsTrigger value="decode" className="flex-1 gap-2 font-mono data-[state=active]:bg-accent/10 data-[state=active]:text-accent">
             <Unlock className="w-4 h-4" />
             Decode
+          </TabsTrigger>
+          <TabsTrigger value="batch" className="flex-1 gap-2 font-mono data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            <Layers className="w-4 h-4" />
+            Batch
           </TabsTrigger>
         </TabsList>
 
@@ -456,6 +461,10 @@ const StegTool = () => {
               No hidden message detected in this image.
             </div>
           )}
+        </TabsContent>
+
+        <TabsContent value="batch" className="space-y-4 mt-6">
+          <BatchEncode />
         </TabsContent>
       </Tabs>
 
