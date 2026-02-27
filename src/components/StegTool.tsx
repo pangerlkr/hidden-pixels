@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import { Lock, Unlock, Download, Copy, RotateCcw, Eye, EyeOff, Info, Gauge, AlertTriangle, Share2, KeyRound, Loader2, Layers, ShieldCheck } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -463,10 +464,19 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
                   {isMessageEncrypted ? "Encrypted message found" : "Hidden message found"}
                 </span>
                 {isMessageEncrypted && prefixCorrupted && (
-                  <Badge variant="outline" className="text-[10px] px-1.5 py-0 border-yellow-500/50 text-yellow-500 gap-1">
-                    <AlertTriangle className="w-3 h-3" />
-                    Auto-repaired
-                  </Badge>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Badge variant="outline" className="text-[10px] px-1.5 py-0 border-yellow-500/50 text-yellow-500 gap-1 cursor-help">
+                          <AlertTriangle className="w-3 h-3" />
+                          Auto-repaired
+                        </Badge>
+                      </TooltipTrigger>
+                      <TooltipContent side="bottom" className="max-w-[260px] text-xs">
+                        <p>The encrypted marker had corrupted bytes before it, likely from image re-processing. The app detected and recovered the payload automatically.</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 )}
                 {!isMessageEncrypted && (
                   <div className="flex gap-1">
