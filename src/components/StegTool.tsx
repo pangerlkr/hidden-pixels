@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import ImageDropZone from "./ImageDropZone";
+import ImageCompareSlider from "./ImageCompareSlider";
 import { encodeMessage, decodeMessage, getMaxMessageLength } from "@/lib/steganography";
 import { encryptText, decryptText, ENCRYPTED_PREFIX, isEncrypted } from "@/lib/crypto";
 import { supabase } from "@/integrations/supabase/client";
@@ -328,13 +329,13 @@ const StegTool = () => {
             </>
           )}
 
-          {encodedUrl && (
+          {encodedUrl && encodePreview && (
             <div className="space-y-3 p-4 rounded-lg bg-secondary/50 border border-primary/20">
               <div className="flex items-center gap-2 text-primary text-sm font-mono">
                 <Eye className="w-4 h-4" />
                 Encoded image ready
               </div>
-              <img src={encodedUrl} alt="Encoded" className="max-h-[200px] object-contain rounded mx-auto" />
+              <ImageCompareSlider originalSrc={encodePreview} encodedSrc={encodedUrl} />
               <div className="flex gap-2">
                 <Button onClick={downloadImage} className="flex-1 font-mono bg-primary text-primary-foreground hover:bg-primary/90">
                   <Download className="w-4 h-4 mr-2" />
