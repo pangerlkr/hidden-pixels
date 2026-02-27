@@ -128,14 +128,41 @@ const ImageMetadataPanel = ({ image, file }: ImageMetadataPanelProps) => {
             EXIF Data ({exifItems.length} fields)
           </button>
           {showExif && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1 border-t border-border">
-              {exifItems.map((item) => (
-                <div key={item.label} className="flex items-center gap-1.5 text-xs font-mono">
-                  <item.icon className="w-3 h-3 text-muted-foreground shrink-0" />
-                  <span className="text-muted-foreground">{item.label}:</span>
-                  <span className="text-foreground truncate">{item.value}</span>
+            <div className="space-y-2 pt-1 border-t border-border">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {exifItems.map((item) => (
+                  <div key={item.label} className="flex items-center gap-1.5 text-xs font-mono">
+                    <item.icon className="w-3 h-3 text-muted-foreground shrink-0" />
+                    <span className="text-muted-foreground">{item.label}:</span>
+                    <span className="text-foreground truncate">{item.value}</span>
+                  </div>
+                ))}
+              </div>
+              {exif?.gps && (
+                <div className="space-y-1">
+                  <p className="text-[10px] font-mono text-muted-foreground flex items-center gap-1">
+                    <MapPin className="w-3 h-3" /> Photo Location
+                  </p>
+                  <a
+                    href={`https://www.openstreetmap.org/?mlat=${exif.gps.lat}&mlon=${exif.gps.lng}#map=15/${exif.gps.lat}/${exif.gps.lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block rounded-lg overflow-hidden border border-border hover:border-primary/50 transition-colors"
+                  >
+                    <iframe
+                      title="Photo location"
+                      width="100%"
+                      height="150"
+                      style={{ border: 0, pointerEvents: "none" }}
+                      loading="lazy"
+                      src={`https://www.openstreetmap.org/export/embed.html?bbox=${exif.gps.lng - 0.01},${exif.gps.lat - 0.01},${exif.gps.lng + 0.01},${exif.gps.lat + 0.01}&layer=mapnik&marker=${exif.gps.lat},${exif.gps.lng}`}
+                    />
+                  </a>
+                  <p className="text-[9px] font-mono text-muted-foreground text-center">
+                    Click to open in OpenStreetMap
+                  </p>
                 </div>
-              ))}
+              )}
             </div>
           )}
         </>
