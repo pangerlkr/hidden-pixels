@@ -101,6 +101,7 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
     setDecodePreview(img.src);
     setDecodeImage(img);
     setDecodeFile(file);
+    setDecodedMessage(null);
     setDecryptedMessage(null);
     setIsMessageEncrypted(false);
     setShowMessage(false);
