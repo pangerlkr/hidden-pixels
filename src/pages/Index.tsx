@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Shield, Github, Mail, ExternalLink, BookOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import StegTool from "@/components/StegTool";
 import TutorialWalkthrough from "@/components/TutorialWalkthrough";
 import KeyboardShortcutsHelp from "@/components/KeyboardShortcutsHelp";
