@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Shield } from "lucide-react";
+import { Shield, Github, Mail, ExternalLink } from "lucide-react";
 import StegTool from "@/components/StegTool";
 import TutorialWalkthrough from "@/components/TutorialWalkthrough";
 import KeyboardShortcutsHelp from "@/components/KeyboardShortcutsHelp";
