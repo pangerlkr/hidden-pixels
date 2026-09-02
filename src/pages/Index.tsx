@@ -42,9 +42,58 @@ const Index = () => {
         <StegTool mode={mode} onModeChange={setMode} />
 
         {/* Footer */}
-        <div className="mt-16 text-center text-xs text-muted-foreground font-mono opacity-50">
-          All processing happens locally in your browser. No data leaves your device.
-        </div>
+        <footer className="mt-16 border-t border-border pt-6 pb-2 text-center text-xs text-muted-foreground font-mono">
+          <p className="mb-3 max-w-2xl mx-auto">
+            For educational purposes only. Built to teach data encoding, image file formats, and how information can be embedded in digital media.
+          </p>
+          <p className="mb-3 font-semibold text-foreground">
+            NEXUSCIPHERGUARD INDIA —{" "}
+            <a
+              href="https://nexuscipherguard.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-primary hover:underline"
+            >
+              nexuscipherguard.in <ExternalLink className="w-3 h-3" />
+            </a>
+          </p>
+          <p className="mb-3">
+            Designed by Pangerkumzuk Longkumer (Panger Lkr) —{" "}
+            <a
+              href="https://pangerlkr.link"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-primary hover:underline"
+            >
+              pangerlkr.link <ExternalLink className="w-3 h-3" />
+            </a>
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-4 mb-3">
+            <a
+              href="mailto:contact@pangerlkr.link"
+              className="inline-flex items-center gap-1 hover:text-foreground transition-colors"
+            >
+              <Mail className="w-3 h-3" /> contact@pangerlkr.link
+            </a>
+            <a
+              href="mailto:support@nexuscipherguard.in"
+              className="inline-flex items-center gap-1 hover:text-foreground transition-colors"
+            >
+              <Mail className="w-3 h-3" /> support@nexuscipherguard.in
+            </a>
+            <a
+              href="https://github.com/pangerlkr/hidden-pixels"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 hover:text-foreground transition-colors"
+            >
+              <Github className="w-3 h-3" /> GitHub
+            </a>
+          </div>
+          <p className="opacity-60">
+            Reach out for support, contributions, or suggestions. All processing happens locally in your browser.
+          </p>
+        </footer>
       </div>
     </div>
   );
