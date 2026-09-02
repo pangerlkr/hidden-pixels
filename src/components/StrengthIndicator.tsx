@@ -99,7 +99,7 @@ const StrengthIndicator = ({ imageWidth, imageHeight, messageLength, maxChars, e
       overallColor = "text-accent";
       overallDescription = "Message is AES-256 encrypted (unreadable without password) but LSB encoding is fragile against image transformations.";
     } else {
-      overallLabel = "Standard LSB — Fragile";
+      overallLabel = "Standard LSB - Fragile";
       overallColor = "text-accent";
       overallDescription = "LSB steganography is invisible to the eye but easily destroyed by any image processing. Always share as original PNG.";
     }

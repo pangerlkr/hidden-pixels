@@ -31,9 +31,9 @@ const ImageMetadataPanel = ({ image, file }: ImageMetadataPanelProps) => {
     const aspectRatio = `${w / aspectGcd}:${h / aspectGcd}`;
     const bitDepth = "8-bit (RGBA)";
 
-    let fileSize = "—";
-    let fileType = "—";
-    let fileName = "—";
+    let fileSize = "-";
+    let fileType = "-";
+    let fileName = "-";
     if (file) {
       fileSize = formatBytes(file.size);
       fileType = file.type || "unknown";
@@ -88,7 +88,7 @@ const ImageMetadataPanel = ({ image, file }: ImageMetadataPanelProps) => {
     { icon: Ruler, label: "Aspect Ratio", value: metadata.aspectRatio },
     { icon: Palette, label: "Color Depth", value: metadata.bitDepth },
     { icon: HardDrive, label: "File Size", value: metadata.fileSize },
-    { icon: FileImage, label: "Format", value: metadata.fileType.split("/")[1]?.toUpperCase() || "—" },
+    { icon: FileImage, label: "Format", value: metadata.fileType.split("/")[1]?.toUpperCase() || "-" },
   ];
 
   const exifItems = exif ? [
@@ -168,7 +168,7 @@ const ImageMetadataPanel = ({ image, file }: ImageMetadataPanelProps) => {
         </>
       )}
 
-      {metadata.fileName !== "—" && (
+      {metadata.fileName !== "-" && (
         <p className="text-[10px] font-mono text-muted-foreground truncate">
           {metadata.fileName}
         </p>
