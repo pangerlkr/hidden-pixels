@@ -1,0 +1,560 @@
+# Instincts generated from https://github.com/pangerlkr/hidden-pixels
+# Generated: 2026-02-27T15:59:44.609Z
+# Version: 2.0
+
+---
+id: hidden-pixels-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Commit Length
+
+## Action
+
+Keep commit messages concise (under 50 characters)
+
+## Evidence
+
+- Average commit message length: 17 chars
+- Based on 57 commits
+
+---
+id: hidden-pixels-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: hidden-pixels-import-alias
+trigger: "when importing modules"
+confidence: 0.85
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Import Alias
+
+## Action
+
+Use path aliases (@/, ~/) instead of relative imports
+
+## Evidence
+
+- Import analysis shows alias pattern
+- Example: import { x } from '@/lib/x'
+
+---
+id: hidden-pixels-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Export Style
+
+## Action
+
+Prefer default exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: default
+
+---
+id: hidden-pixels-arch-type-based
+trigger: "when adding new code"
+confidence: 0.8
+domain: architecture
+source: repo-analysis
+source_repo: https://github.com/pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Arch Type Based
+
+## Action
+
+Place code in the appropriate type folder (components/, services/, utils/, etc.)
+
+## Evidence
+
+- Type-based module organization detected
+- Folders: components, hooks, integrations, lib, pages
+
+---
+id: hidden-pixels-test-colocate
+trigger: "when writing tests"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Test Colocate
+
+## Action
+
+Place test file next to the source file (e.g., Button.test.tsx next to Button.tsx)
+
+## Evidence
+
+- Colocated test pattern detected
+- Tests live alongside source files
+
+---
+id: hidden-pixels-workflow-feature-development
+trigger: "when implementing a new feature"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Workflow Feature Development
+
+## Action
+
+Follow the feature-development workflow:
+1. Add feature implementation
+2. Add tests for feature
+3. Update documentation
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~11x per month
+- Files: src/*, src/components/*, src/integrations/supabase/*
+
+---
+id: hidden-pixels-workflow-ui-enhancement-with-iterations
+trigger: "when doing ui enhancement with iterations"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Workflow Ui Enhancement With Iterations
+
+## Action
+
+Follow the ui-enhancement-with-iterations workflow:
+1. Make initial implementation with descriptive commit
+2. Make follow-up 'Changes' commit for refinements
+3. Repeat pattern for additional tweaks
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~15x per month
+- Files: src/components/StegTool.tsx, src/components/*.tsx
+
+---
+id: hidden-pixels-workflow-stegtool-feature-development
+trigger: "when doing stegtool feature development"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Workflow Stegtool Feature Development
+
+## Action
+
+Follow the stegtool-feature-development workflow:
+1. Implement feature in StegTool.tsx
+2. Add supporting UI components if needed
+3. Make iterative Changes commit
+4. Test and refine
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~12x per month
+- Files: src/components/StegTool.tsx
+
+---
+id: hidden-pixels-workflow-component-creation-with-integration
+trigger: "when doing component creation with integration"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Workflow Component Creation With Integration
+
+## Action
+
+Follow the component-creation-with-integration workflow:
+1. Create new component file
+2. Update main components to import and use new component
+3. Make follow-up Changes commit
+4. Add any required dependencies
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~8x per month
+- Files: src/components/[NewComponent].tsx, src/components/StegTool.tsx, package.json
+
+---
+id: hidden-pixels-workflow-package-dependency-addition
+trigger: "when doing package dependency addition"
+confidence: 0.65
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Workflow Package Dependency Addition
+
+## Action
+
+Follow the package-dependency-addition workflow:
+1. Install package (updates package.json and package-lock.json)
+2. Import and integrate package in relevant component
+3. Make Changes commit for integration refinements
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~3x per month
+- Files: package.json, package-lock.json, src/components/*.tsx
+
+---
+id: hidden-pixels-workflow-infrastructure-feature-addition
+trigger: "when doing infrastructure feature addition"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Workflow Infrastructure Feature Addition
+
+## Action
+
+Follow the infrastructure-feature-addition workflow:
+1. Create utility/lib files
+2. Add database migrations if needed
+3. Update routing in App.tsx
+4. Create new page components
+5. Update type definitions
+6. Make Changes commit
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: src/lib/*.ts, src/App.tsx, src/pages/*.tsx
+
+---
+id: hidden-pixels-camelcase-files
+trigger: "When creating a new file"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Camelcase Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Pattern in src/components/StegTool.tsx
+- Consistent across all source files
+
+---
+id: hidden-pixels-pascalcase-components
+trigger: "When creating a React component"
+confidence: 0.9
+domain: code-style
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Pascalcase Components
+
+## Action
+
+Use PascalCase for component class names
+
+## Evidence
+
+- StegTool component
+- All components follow PascalCase
+
+---
+id: hidden-pixels-alias-imports
+trigger: "When importing modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Alias Imports
+
+## Action
+
+Use alias import style
+
+## Evidence
+
+- Import patterns in src/ files
+- Consistent alias usage
+
+---
+id: hidden-pixels-default-exports
+trigger: "When exporting from a module"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Default Exports
+
+## Action
+
+Use default export style
+
+## Evidence
+
+- Export patterns across components
+- Default export in main files
+
+---
+id: hidden-pixels-try-catch-errors
+trigger: "When handling errors"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Try Catch Errors
+
+## Action
+
+Use try-catch blocks without custom error classes
+
+## Evidence
+
+- Error handling patterns
+- No custom error classes found
+
+---
+id: hidden-pixels-colocated-tests
+trigger: "When writing tests"
+confidence: 0.6
+domain: testing
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Colocated Tests
+
+## Action
+
+Place tests colocated with source files
+
+## Evidence
+
+- Test location configuration
+- Test folder in src/
+
+---
+id: hidden-pixels-descriptive-commits
+trigger: "When making initial feature commits"
+confidence: 0.8
+domain: git
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Descriptive Commits
+
+## Action
+
+Write descriptive commit messages explaining the feature
+
+## Evidence
+
+- Add onboarding for Encode tab
+- Add decode onboarding hints
+- Add tooltip to auto-repaired badge
+
+---
+id: hidden-pixels-changes-followup
+trigger: "When refining a recently implemented feature"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Changes Followup
+
+## Action
+
+Use 'Changes' as commit message for iterative improvements
+
+## Evidence
+
+- High frequency of 'Changes' commits
+- Pattern in ui-enhancement workflow
+
+---
+id: hidden-pixels-ui-enhancement-workflow
+trigger: "When someone wants to add or improve a UI feature"
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Ui Enhancement Workflow
+
+## Action
+
+Implement in StegTool.tsx with descriptive commit, then follow up with 'Changes' commit
+
+## Evidence
+
+- 15x/month frequency
+- StegTool.tsx modifications
+- Iterative commit pattern
+
+---
+id: hidden-pixels-steg-feature-workflow
+trigger: "When someone wants to add functionality to the steganography tool"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Steg Feature Workflow
+
+## Action
+
+Focus changes on src/components/StegTool.tsx and add supporting UI as needed
+
+## Evidence
+
+- 12x/month frequency
+- StegTool.tsx as primary file
+- Steganography-focused commits
+
+---
+id: hidden-pixels-component-creation-workflow
+trigger: "When someone wants to add a new standalone component feature"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Component Creation Workflow
+
+## Action
+
+Create new component file, integrate into StegTool.tsx, then make 'Changes' commit
+
+## Evidence
+
+- 8x/month frequency
+- New component creation pattern
+- Integration with existing components
+
+---
+id: hidden-pixels-package-addition-workflow
+trigger: "When someone wants to add external library functionality"
+confidence: 0.8
+domain: workflow
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Package Addition Workflow
+
+## Action
+
+Install package first, then integrate in components with follow-up Changes commit
+
+## Evidence
+
+- 3x/month frequency
+- Package.json updates
+- Integration refinements pattern
+
+---
+id: hidden-pixels-infrastructure-workflow
+trigger: "When someone wants to add major features requiring routing, database, or utilities"
+confidence: 0.75
+domain: workflow
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Infrastructure Workflow
+
+## Action
+
+Create lib files first, then update App.tsx routing, add pages, update types, and make Changes commit
+
+## Evidence
+
+- 2x/month frequency
+- Multi-file infrastructure changes
+- Database migration patterns
+
+---
+id: hidden-pixels-type-based-organization
+trigger: "When organizing new modules"
+confidence: 0.9
+domain: architecture
+source: repo-analysis
+source_repo: pangerlkr/hidden-pixels
+---
+
+# Hidden Pixels Type Based Organization
+
+## Action
+
+Group by type (components/, hooks/, lib/, pages/, etc.)
+
+## Evidence
+
+- Folder structure analysis
+- Type-based module organization
+- Consistent src layout
+
