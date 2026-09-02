@@ -1,5 +1,7 @@
 import { useState, useCallback } from "react";
-import { Shield, Github, Mail, ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Shield, Github, Mail, ExternalLink, BookOpen } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import StegTool from "@/components/StegTool";
 import TutorialWalkthrough from "@/components/TutorialWalkthrough";
 import KeyboardShortcutsHelp from "@/components/KeyboardShortcutsHelp";
@@ -36,6 +38,13 @@ const Index = () => {
           <p className="text-muted-foreground font-mono text-sm max-w-md mx-auto">
             Hide secret messages inside images. Invisible to the eye, readable only by those who know.
           </p>
+          <div className="flex items-center justify-center gap-2 pt-2">
+            <Button variant="outline" size="sm" asChild>
+              <Link to="/how-it-works" className="inline-flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5" /> How it works
+              </Link>
+            </Button>
+          </div>
         </div>
 
         {/* Tool */}
