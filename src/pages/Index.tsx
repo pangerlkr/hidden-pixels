@@ -47,7 +47,7 @@ const Index = () => {
             For educational purposes only. Built to teach data encoding, image file formats, and how information can be embedded in digital media.
           </p>
           <p className="mb-3 font-semibold text-foreground">
-            NEXUSCIPHERGUARD INDIA —{" "}
+            NEXUSCIPHERGUARD INDIA -{" "}
             <a
               href="https://nexuscipherguard.in"
               target="_blank"
@@ -58,7 +58,7 @@ const Index = () => {
             </a>
           </p>
           <p className="mb-3">
-            Designed by Pangerkumzuk Longkumer (Panger Lkr) —{" "}
+            Designed by Pangerkumzuk Longkumer (Panger Lkr) -{" "}
             <a
               href="https://pangerlkr.link"
               target="_blank"

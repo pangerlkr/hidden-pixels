@@ -177,7 +177,7 @@ const ImageCompareSlider = ({ originalSrc, encodedSrc }: ImageCompareSliderProps
 
       <div className="flex items-center justify-between text-[10px] font-mono text-muted-foreground">
         {viewMode === "compare" ? (
-          <span>Visually identical — LSB changes are imperceptible to the human eye.</span>
+          <span>Visually identical - LSB changes are imperceptible to the human eye.</span>
         ) : (
           <div className="flex items-center gap-3 flex-wrap">
             <span className="flex items-center gap-1"><span className="inline-block w-2 h-2 rounded-sm bg-red-500" /> R-channel</span>

@@ -202,7 +202,7 @@ const BatchEncode = ({ onCountChange }: BatchEncodeProps) => {
       URL.revokeObjectURL(url);
 
       const sizeMB = (blob.size / (1024 * 1024)).toFixed(1);
-      toast.success(`ZIP downloaded — ${doneImages.length} images, ${sizeMB} MB`);
+      toast.success(`ZIP downloaded - ${doneImages.length} images, ${sizeMB} MB`);
     } catch {
       toast.error("Failed to create ZIP file.");
     }
@@ -217,7 +217,7 @@ const BatchEncode = ({ onCountChange }: BatchEncodeProps) => {
       {/* Drop zone for multiple images */}
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-mono text-muted-foreground uppercase tracking-wider">
-          Step 1 — Select images
+          Step 1 - Select images
         </h3>
         {images.length > 0 && (
           <Button variant="ghost" size="sm" onClick={reset} className="text-muted-foreground hover:text-foreground">
@@ -308,7 +308,7 @@ const BatchEncode = ({ onCountChange }: BatchEncodeProps) => {
           {/* Message input */}
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-mono text-muted-foreground uppercase tracking-wider">
-              Step 2 — Enter message
+              Step 2 - Enter message
             </h3>
             <span className="text-xs font-mono text-muted-foreground">
               {images.length} images selected
@@ -325,7 +325,7 @@ const BatchEncode = ({ onCountChange }: BatchEncodeProps) => {
           {tooSmall.length > 0 && message.trim() && (
             <p className="text-xs font-mono text-destructive flex items-center gap-1.5">
               <AlertCircle className="w-3.5 h-3.5" />
-              {tooSmall.length} image{tooSmall.length > 1 ? "s" : ""} too small for this message — will be skipped.
+              {tooSmall.length} image{tooSmall.length > 1 ? "s" : ""} too small for this message - will be skipped.
             </p>
           )}
 

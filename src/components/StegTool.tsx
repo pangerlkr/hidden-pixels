@@ -273,7 +273,7 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
         <TabsContent value="encode" className="space-y-4 mt-6">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-mono text-muted-foreground uppercase tracking-wider">
-              Step 1 — Select carrier image
+              Step 1 - Select carrier image
             </h3>
             {encodePreview && (
               <Button variant="ghost" size="sm" onClick={() => reset("encode")} className="text-muted-foreground hover:text-foreground">
@@ -309,7 +309,7 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
               <ImageMetadataPanel image={encodeImage} file={encodeFile} />
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-mono text-muted-foreground uppercase tracking-wider">
-                  Step 2 — Enter secret message
+                  Step 2 - Enter secret message
                 </h3>
                 <span className="text-xs font-mono text-muted-foreground">
                   {secretMessage.length} / {maxChars} chars
@@ -587,7 +587,7 @@ const StegTool = ({ mode, onModeChange }: StegToolProps) => {
           <Info className="w-4 h-4 text-muted-foreground mt-0.5 shrink-0" />
           <div className="text-xs text-muted-foreground font-mono space-y-1">
             <p><strong className="text-foreground">How it works:</strong> LSB steganography replaces the least significant bit of each color channel in every pixel. This change is imperceptible to the human eye but encodes binary data.</p>
-            <p>Use <strong className="text-foreground">PNG or BMP</strong> formats — JPEG compression destroys hidden data.</p>
+            <p>Use <strong className="text-foreground">PNG or BMP</strong> formats - JPEG compression destroys hidden data.</p>
             <p><strong className="text-foreground">Encryption:</strong> Optionally encrypt your message with AES-256-GCM before encoding for double security.</p>
             <p><strong className="text-foreground">Sharing:</strong> Use the Share Link button to generate a safe link that preserves the original PNG.</p>
           </div>
